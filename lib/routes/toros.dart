@@ -1,4 +1,6 @@
 import 'package:app_toro/models/toro.dart';
+import 'package:app_toro/parts/error.data.dart';
+import 'package:app_toro/parts/waiting.data.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -19,19 +21,14 @@ class _TorosRouteState extends State<TorosRoute> {
   final Map<String, Marker> _markers = {};
   final LatLng _center = const LatLng(40.463667, -3.74922);
 
-  Future<void> _onMapCreated(GoogleMapController controller) async {
-    final toros = await getToros();
+  Future<void> _onMapCreated(
+      GoogleMapController controller, List<Toro> toros) async {
     BitmapDescriptor markerbitmap = BitmapDescriptor.fromBytes(
         await getBytesFromAsset(path: 'assets/bull.png', width: 72));
     setState(() {
       _markers.clear();
       for (final toro in toros) {
-        final marker = Marker(
-            markerId: MarkerId(toro.name),
-            position: LatLng(toro.lat, toro.lon),
-            infoWindow: InfoWindow(title: toro.name, snippet: toro.comunidad),
-            icon: markerbitmap);
-        _markers[toro.name] = marker;
+        _markers[toro.name] = toro.toMarker(markerbitmap);
       }
     });
   }
@@ -41,18 +38,31 @@ class _TorosRouteState extends State<TorosRoute> {
     return Scaffold(
         drawer: const ToroDrawer(),
         appBar: const ToroAppBar(),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          zoomGesturesEnabled: false,
-          scrollGesturesEnabled: false,
-          tiltGesturesEnabled: false,
-          rotateGesturesEnabled: false,
-          zoomControlsEnabled: false,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 5.7,
-          ),
-          markers: _markers.values.toSet(),
-        ));
+        body: FutureBuilder<List<Toro>>(
+            future: getToros(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return GoogleMap(
+                  onMapCreated: (controller) =>
+                      _onMapCreated(controller, snapshot.data!),
+                  zoomGesturesEnabled: false,
+                  scrollGesturesEnabled: false,
+                  tiltGesturesEnabled: false,
+                  rotateGesturesEnabled: false,
+                  zoomControlsEnabled: false,
+                  initialCameraPosition: CameraPosition(
+                    target: _center,
+                    zoom: 5.7,
+                  ),
+                  markers: _markers.values.toSet(),
+                );
+              } else if (snapshot.hasError) {
+                return ErrorData(
+                  error: snapshot.error.toString(),
+                );
+              } else {
+                return const WaitingData();
+              }
+            }));
   }
 }

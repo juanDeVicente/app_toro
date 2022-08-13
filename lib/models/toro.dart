@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:http/http.dart' as http;
+
+import '../utilities/flavor_config.dart';
 
 @JsonSerializable()
 class Toro {
@@ -12,13 +15,21 @@ class Toro {
       required this.comunidad});
 
   Toro.fromJson(Map<String, dynamic> json)
-      : lat = json['lat'],
-        lon = json['lon'],
+      : lat = double.parse(json['lat']),
+        lon = double.parse(json['lon']),
         name = json['name'],
         comunidad = json['comunidad'];
 
   Map<String, dynamic> toJson() =>
       {'lat': lat, 'lon': lon, 'name': name, 'comunidad': comunidad};
+
+  Marker toMarker(BitmapDescriptor descriptor) {
+    return Marker(
+        markerId: MarkerId(name),
+        position: LatLng(lat, lon),
+        infoWindow: InfoWindow(title: name, snippet: comunidad),
+        icon: descriptor);
+  }
 
   final double lat;
   final double lon;
@@ -27,7 +38,7 @@ class Toro {
 }
 
 Future<List<Toro>> getToros() async {
-  const apiUrl = 'http://192.168.50.254:8080/toro';
+  var apiUrl = '${FlavorConfig.instance.values.baseUrl}/toro';
 
   try {
     final response = await http.get(Uri.parse(apiUrl));

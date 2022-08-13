@@ -2,12 +2,8 @@ import 'package:app_toro/parts/app.bar.dart';
 import 'package:app_toro/parts/drawer.dart';
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class ToroApp extends StatelessWidget {
+  const ToroApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
