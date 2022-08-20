@@ -9,9 +9,12 @@ class ToroDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const iconSeparator = 25.0;
-    const listTitleIconSeparator = 25.0;
+    const listTitleIconSeparator = 16.0;
+    const Color backgroundColor = Colors.white;
 
     return Drawer(
+        child: Container(
+      color: const Color(0xFFe6e6e6),
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -32,58 +35,75 @@ class ToroDrawer extends StatelessWidget {
                   padding: const EdgeInsets.only(top: iconSeparator),
                   child: const Text(
                     'Where is my toro?',
-                    style: TextStyle(fontSize: 18),
+                    style: TextStyle(fontSize: 18, color: Colors.white),
                   )),
             ]),
           ),
-          ListTile(
-            title: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: [
-                const Icon(
-                  Icons.map,
-                  color: Colors.black,
-                  size: 16,
-                  semanticLabel: 'Map icon to see toros',
-                ),
-                Container(
-                  padding: const EdgeInsets.only(left: listTitleIconSeparator),
-                  child: const Text('Ver toros'),
-                )
-              ],
+          Container(
+            margin: const EdgeInsets.only(left: 10.0, right: 10.0),
+            decoration: BoxDecoration(
+                border: Border.all(color: backgroundColor),
+                color: backgroundColor,
+                borderRadius: const BorderRadius.all(Radius.circular(10))),
+            child: ListTile(
+              title: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.start,
+                children: [
+                  const Icon(
+                    Icons.map,
+                    color: Colors.black,
+                    size: 16,
+                    semanticLabel: 'Map icon to see toros',
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.only(left: listTitleIconSeparator),
+                    child: const Text('Ver toros'),
+                  )
+                ],
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const TorosRoute()));
+              },
             ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const TorosRoute()));
-            },
           ),
-          ListTile(
-            title: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.start,
-              children: [
-                const Icon(
-                  Icons.location_on,
-                  color: Colors.black,
-                  size: 16,
-                  semanticLabel: 'Map icon to see toros',
+          Container(
+              margin: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+              decoration: BoxDecoration(
+                  border: Border.all(color: backgroundColor),
+                  color: backgroundColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(10))),
+              child: ListTile(
+                title: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.start,
+                  children: [
+                    const Icon(
+                      Icons.location_on,
+                      color: Colors.black,
+                      size: 16,
+                      semanticLabel: 'Map icon to see nearest toro',
+                    ),
+                    Container(
+                      padding:
+                          const EdgeInsets.only(left: listTitleIconSeparator),
+                      child: const Text('Toro más cercano'),
+                    )
+                  ],
                 ),
-                Container(
-                  padding: const EdgeInsets.only(left: listTitleIconSeparator),
-                  child: const Text('Toro más cercano'),
-                )
-              ],
-            ),
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const TorosDistanceRoute()));
-            },
-          )
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const TorosDistanceRoute()));
+                },
+              )),
         ],
       ),
-    );
+    ));
   }
 }
