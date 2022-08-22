@@ -1,16 +1,14 @@
-import 'dart:typed_data';
-
 import 'package:app_toro/models/toro.distance.dart';
 import 'package:app_toro/parts/error.data.dart';
 import 'package:app_toro/parts/waiting.data.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/plugin_api.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:latlong2/latlong.dart';
 import 'dart:math';
 
 import '../parts/app.bar.dart';
 import '../parts/drawer.dart';
-import '../utilities/file.dart';
 
 class TorosDistanceRoute extends StatefulWidget {
   const TorosDistanceRoute({Key? key}) : super(key: key);
@@ -22,8 +20,6 @@ class TorosDistanceRoute extends StatefulWidget {
 }
 
 class _TorosDistanceRouteState extends State<TorosDistanceRoute> {
-  late GoogleMapController mapController;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,86 +99,72 @@ class DistanceToroWidget extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var toroDistance = snapshot.data as ToroDistance;
-                return FutureBuilder(
-                  future: getBytesFromAsset(path: 'assets/bull.png', width: 72),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      var bytes = snapshot.data as Uint8List;
-                      BitmapDescriptor markerbitmap =
-                          BitmapDescriptor.fromBytes(bytes);
-                      var points = [
-                        LatLng(toroDistance.lat, toroDistance.lon),
-                        LatLng(toroDistance.toro.lat, toroDistance.toro.lon)
-                      ];
-                      final highestLat =
-                          points.map((e) => e.latitude).reduce(max);
-                      final highestLong =
-                          points.map((e) => e.longitude).reduce(max);
-                      final lowestLat =
-                          points.map((e) => e.latitude).reduce(min);
-                      final lowestLong =
-                          points.map((e) => e.longitude).reduce(min);
-                      final lowestLatLowestLong = LatLng(lowestLat, lowestLong);
-                      final highestLatHighestLong =
-                          LatLng(highestLat, highestLong);
-                      final Map<String, Marker> markers = {};
-                      markers['user'] = Marker(
-                          markerId: const MarkerId('Me'),
-                          position:
-                              LatLng(position.latitude, position.longitude));
-                      markers['toro'] =
-                          toroDistance.toro.toMarker(markerbitmap);
-                      var center = toroDistance.getCenter();
-
-                      var zoom = toroDistance.getZoom(
-                          LatLngBounds(
-                              southwest: lowestLatLowestLong,
-                              northeast: highestLatHighestLong),
-                          256,
-                          256);
-                      final Set<Polyline> polyline = {};
-
-                      polyline.add(
-                        Polyline(
-                            polylineId: PolylineId(toroDistance.toro.name),
-                            visible: true,
-                            points: points,
-                            color: Colors.black,
-                            width: 1),
-                      );
-
-                      return Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Text(
-                                  textAlign: TextAlign.center,
-                                  'El toro más cercano está a ${toroDistance.distance.toInt()} kilómetros'),
-                            ),
-                            Expanded(
-                              child: GoogleMap(
-                                initialCameraPosition: CameraPosition(
-                                  target: center,
-                                  zoom: zoom,
-                                ),
-                                markers: markers.values.toSet(),
-                                polylines: polyline,
-                              ),
-                            )
-                          ]);
-                    } else if (snapshot.hasError) {
-                      return const ErrorData(
-                        error: 'Error retrieving bull image',
-                      );
-                    } else {
-                      return const WaitingData();
-                    }
-                  },
+                var points = [
+                  LatLng(toroDistance.lat, toroDistance.lon),
+                  LatLng(toroDistance.toro.lat, toroDistance.toro.lon)
+                ];
+                final highestLat = points.map((e) => e.latitude).reduce(max);
+                final highestLong = points.map((e) => e.longitude).reduce(max);
+                final lowestLat = points.map((e) => e.latitude).reduce(min);
+                final lowestLong = points.map((e) => e.longitude).reduce(min);
+                final lowestLatLowestLong = LatLng(lowestLat, lowestLong);
+                final highestLatHighestLong = LatLng(highestLat, highestLong);
+                final Map<String, Marker> markers = {};
+                markers['user'] = Marker(
+                  width: 24,
+                  height: 24,
+                  point: LatLng(position.latitude, position.longitude),
+                  builder: (context) =>
+                      const Icon(Icons.person, color: Colors.black),
                 );
+                markers['toro'] = toroDistance.toro.toMarker();
+                var center = toroDistance.getCenter();
+
+                var zoom = toroDistance.getZoom(
+                    LatLngBounds(lowestLatLowestLong, highestLatHighestLong),
+                    MediaQuery.of(context).size.width,
+                    MediaQuery.of(context).size.height);
+                final Set<Polyline> polyline = {};
+
+                polyline.add(
+                  Polyline(
+                      points: points,
+                      color: Colors.black,
+                      borderColor: null,
+                      borderStrokeWidth: 1),
+                );
+
+                return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                            textAlign: TextAlign.center,
+                            'El toro más cercano está a ${toroDistance.distance.toInt()} kilómetros'),
+                      ),
+                      Expanded(
+                          child: FlutterMap(
+                        options: MapOptions(
+                            center: center,
+                            zoom: zoom,
+                            maxBounds: LatLngBounds(
+                                LatLng(-90, -180.0), LatLng(90.0, 180.0))),
+                        layers: [
+                          TileLayerOptions(
+                              urlTemplate:
+                                  'http://mt{s}.google.com/vt/lyrs=m@221097413,lyrs=m&x={x}&y={y}&z={z}',
+                              subdomains: ['0', '1', '2', '3'],
+                              userAgentPackageName: 'com.example.app',
+                              retinaMode: true),
+                          PolylineLayerOptions(polylines: polyline.toList()),
+                          MarkerLayerOptions(markers: markers.values.toList()),
+                        ],
+                      ))
+                    ]);
               } else if (snapshot.hasError) {
                 return const ErrorData(
-                  error: 'Cannot get nearest toro',
+                  error: 'Error retrieving bull image',
                 );
               } else {
                 return const WaitingData();

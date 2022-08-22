@@ -53,8 +53,6 @@ android {
         versionName flutterVersionName
         Properties properties = new Properties()
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        manifestPlaceholders += [googleMapsKey: "${properties.getProperty('google.maps.key')}"]
-    
     }
 
     buildTypes {

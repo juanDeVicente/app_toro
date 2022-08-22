@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:math' as math;
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:flutter_map/plugin_api.dart';
+import 'package:latlong2/latlong.dart';
 
 import '../utilities/flavor_config.dart';
 import 'package:http/http.dart' as http;
@@ -30,8 +32,8 @@ class ToroDistance {
   }
 
   double getZoom(LatLngBounds bounds, double mapWidth, double mapHeight) {
-    final LatLng northEast = bounds.northeast;
-    final LatLng southWest = bounds.southwest;
+    final LatLng northEast = bounds.northEast!;
+    final LatLng southWest = bounds.southWest!;
 
     final double latFraction =
         (latRad(northEast.latitude) - latRad(southWest.latitude)) / math.pi;

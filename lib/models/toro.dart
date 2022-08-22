@@ -1,8 +1,10 @@
 import 'dart:convert';
-
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_map/plugin_api.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:http/http.dart' as http;
+import 'package:latlong2/latlong.dart';
 
 import '../utilities/flavor_config.dart';
 
@@ -23,12 +25,16 @@ class Toro {
   Map<String, dynamic> toJson() =>
       {'lat': lat, 'lon': lon, 'name': name, 'comunidad': comunidad};
 
-  Marker toMarker(BitmapDescriptor descriptor) {
+  Marker toMarker() {
     return Marker(
-        markerId: MarkerId(name),
-        position: LatLng(lat, lon),
-        infoWindow: InfoWindow(title: name, snippet: comunidad),
-        icon: descriptor);
+        point: LatLng(lat, lon),
+        width: 32,
+        height: 32,
+        builder: (context) => SvgPicture.asset('assets/bull.svg',
+            width: 24,
+            height: 24,
+            color: Colors.black,
+            semanticsLabel: 'A bull'));
   }
 
   final double lat;
