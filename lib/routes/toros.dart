@@ -2,11 +2,12 @@ import 'package:app_toro/models/toro.dart';
 import 'package:app_toro/parts/error.data.dart';
 import 'package:app_toro/parts/waiting.data.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/plugin_api.dart';
+import "package:latlong2/latlong.dart";
 
 import '../parts/app.bar.dart';
 import '../parts/drawer.dart';
-import '../utilities/file.dart';
 
 class TorosRoute extends StatefulWidget {
   const TorosRoute({Key? key}) : super(key: key);
@@ -18,20 +19,7 @@ class TorosRoute extends StatefulWidget {
 }
 
 class _TorosRouteState extends State<TorosRoute> {
-  final Map<String, Marker> _markers = {};
-  final LatLng _center = const LatLng(40.463667, -3.74922);
-
-  Future<void> _onMapCreated(
-      GoogleMapController controller, List<Toro> toros) async {
-    BitmapDescriptor markerbitmap = BitmapDescriptor.fromBytes(
-        await getBytesFromAsset(path: 'assets/bull.png', width: 72));
-    setState(() {
-      _markers.clear();
-      for (final toro in toros) {
-        _markers[toro.name] = toro.toMarker(markerbitmap);
-      }
-    });
-  }
+  final LatLng _center = LatLng(40.463667, -3.74922);
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +30,23 @@ class _TorosRouteState extends State<TorosRoute> {
             future: getToros(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return GoogleMap(
-                  onMapCreated: (controller) =>
-                      _onMapCreated(controller, snapshot.data!),
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 5.4,
-                  ),
-                  markers: _markers.values.toSet(),
+                return FlutterMap(
+                  options: MapOptions(
+                      center: _center,
+                      zoom: 5.4,
+                      maxBounds: LatLngBounds(
+                          LatLng(-90, -180.0), LatLng(90.0, 180.0))),
+                  layers: [
+                    TileLayerOptions(
+                        urlTemplate:
+                            'http://mt{s}.google.com/vt/lyrs=m@221097413,lyrs=m&x={x}&y={y}&z={z}',
+                        subdomains: ['0', '1', '2', '3'],
+                        userAgentPackageName: 'com.example.app',
+                        retinaMode: true),
+                    MarkerLayerOptions(
+                        markers:
+                            snapshot.data!.map((e) => e.toMarker()).toList())
+                  ],
                 );
               } else if (snapshot.hasError) {
                 return ErrorData(
