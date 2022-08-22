@@ -89,7 +89,7 @@ class _TorosDistanceRouteState extends State<TorosDistanceRoute> {
 
 class DistanceToroWidget extends StatelessWidget {
   const DistanceToroWidget({Key? key}) : super(key: key);
-
+  final Color backgroundColor = Colors.white;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -140,18 +140,37 @@ class DistanceToroWidget extends StatelessWidget {
                               northeast: highestLatHighestLong),
                           256,
                           256);
-                      return GoogleMap(
-                        zoomGesturesEnabled: false,
-                        scrollGesturesEnabled: false,
-                        tiltGesturesEnabled: false,
-                        rotateGesturesEnabled: false,
-                        zoomControlsEnabled: false,
-                        initialCameraPosition: CameraPosition(
-                          target: center,
-                          zoom: zoom,
-                        ),
-                        markers: markers.values.toSet(),
+                      final Set<Polyline> polyline = {};
+
+                      polyline.add(
+                        Polyline(
+                            polylineId: PolylineId(toroDistance.toro.name),
+                            visible: true,
+                            points: points,
+                            color: Colors.black,
+                            width: 1),
                       );
+
+                      return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Text(
+                                  textAlign: TextAlign.center,
+                                  'El toro más cercano está a ${toroDistance.distance.toInt()} kilómetros'),
+                            ),
+                            Expanded(
+                              child: GoogleMap(
+                                initialCameraPosition: CameraPosition(
+                                  target: center,
+                                  zoom: zoom,
+                                ),
+                                markers: markers.values.toSet(),
+                                polylines: polyline,
+                              ),
+                            )
+                          ]);
                     } else if (snapshot.hasError) {
                       return const ErrorData(
                         error: 'Error retrieving bull image',

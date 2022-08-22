@@ -45,14 +45,9 @@ class _TorosRouteState extends State<TorosRoute> {
                 return GoogleMap(
                   onMapCreated: (controller) =>
                       _onMapCreated(controller, snapshot.data!),
-                  zoomGesturesEnabled: false,
-                  scrollGesturesEnabled: false,
-                  tiltGesturesEnabled: false,
-                  rotateGesturesEnabled: false,
-                  zoomControlsEnabled: false,
                   initialCameraPosition: CameraPosition(
                     target: _center,
-                    zoom: 5.7,
+                    zoom: 5.4,
                   ),
                   markers: _markers.values.toSet(),
                 );
