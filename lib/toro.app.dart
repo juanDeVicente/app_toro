@@ -17,6 +17,7 @@ class ToroApp extends StatelessWidget {
       home: Scaffold(
           drawer: const ToroDrawer(),
           appBar: const ToroAppBar(),
+          backgroundColor: const Color(0xFFe6e6e6),
           body: Container(
               color: const Color(0xFFe6e6e6),
               child: SingleChildScrollView(
