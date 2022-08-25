@@ -67,7 +67,7 @@ Future<ToroDistance?> getNearestToro(double lat, double lon) async {
       return toroDistance;
     }
   } catch (e) {
-    print(e);
+    rethrow;
   }
 
   return null;

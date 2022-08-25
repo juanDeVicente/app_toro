@@ -61,7 +61,7 @@ Future<List<Toro>> getToros() async {
       return torosList;
     }
   } catch (e) {
-    print(e);
+    rethrow;
   }
 
   return List.empty();
