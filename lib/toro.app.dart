@@ -1,6 +1,7 @@
 import 'package:app_toro/parts/app.bar.dart';
 import 'package:app_toro/parts/drawer.dart';
 import 'package:app_toro/parts/text.panel.dart';
+import 'package:app_toro/utilities/notification_helper.dart';
 import 'package:flutter/material.dart';
 
 class ToroApp extends StatelessWidget {
@@ -10,6 +11,8 @@ class ToroApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    showNotification('¡Un toro se encuentra cerca!',
+        'El toro de blablabla está a menos de 5 km. ¡Prepárate para decir Toro!');
     return MaterialApp(
       title: 'Where is my toro?',
       theme: ThemeData(

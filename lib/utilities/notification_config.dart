@@ -45,10 +45,8 @@ class NotificationConfig {
     await _configureLocalTimeZone();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    /// Note: permissions aren't requested here just to demonstrate that can be
-    /// done later
     final IOSInitializationSettings initializationSettingsIOS =
         IOSInitializationSettings(
             requestAlertPermission: true,
@@ -103,6 +101,8 @@ class NotificationConfig {
     }
     tz.initializeTimeZones();
     final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
-    tz.setLocalLocation(tz.getLocation(timeZoneName));
+    if (timeZoneName != "GMT") {
+      tz.setLocalLocation(tz.getLocation(timeZoneName));
+    }
   }
 }
