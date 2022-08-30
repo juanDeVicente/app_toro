@@ -1,6 +1,7 @@
 import 'package:app_toro/parts/app.bar.dart';
 import 'package:app_toro/parts/drawer.dart';
 import 'package:app_toro/parts/text.panel.dart';
+import 'package:app_toro/utilities/constants.dart';
 import 'package:flutter/material.dart';
 
 class ToroApp extends StatelessWidget {
@@ -13,13 +14,17 @@ class ToroApp extends StatelessWidget {
     return MaterialApp(
       title: 'Where is my toro?',
       theme: ThemeData(
-          primarySwatch: Colors.blue, backgroundColor: const Color(0xFFe6e6e6)),
+          sliderTheme: const SliderThemeData(
+            showValueIndicator: ShowValueIndicator.always,
+          ),
+          primarySwatch: Colors.blue,
+          backgroundColor: backgroundColor),
       home: Scaffold(
           drawer: const ToroDrawer(),
           appBar: const ToroAppBar(),
-          backgroundColor: const Color(0xFFe6e6e6),
+          backgroundColor: backgroundColor,
           body: Container(
-              color: const Color(0xFFe6e6e6),
+              color: backgroundColor,
               child: SingleChildScrollView(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
