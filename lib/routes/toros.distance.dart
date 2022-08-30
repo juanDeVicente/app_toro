@@ -86,6 +86,13 @@ class _TorosDistanceRouteState extends State<TorosDistanceRoute> {
 class DistanceToroWidget extends StatelessWidget {
   const DistanceToroWidget({Key? key}) : super(key: key);
   final Color backgroundColor = Colors.white;
+
+  String _calculateDistance(double distance) {
+    if (distance < 1) return '${(distance * 1000).toInt()} metros';
+
+    return '${distance.toInt()} kilómetros';
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -141,7 +148,7 @@ class DistanceToroWidget extends StatelessWidget {
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
                             textAlign: TextAlign.center,
-                            'El toro más cercano está a ${toroDistance.distance.toInt()} kilómetros'),
+                            'El toro más cercano está a ${_calculateDistance(toroDistance.distance)}'),
                       ),
                       Expanded(
                           child: FlutterMap(
