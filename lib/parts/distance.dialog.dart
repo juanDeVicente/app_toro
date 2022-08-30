@@ -51,6 +51,7 @@ class _DistanceDialogState extends State<DistanceDialog> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /*
                   Container(
                       padding: const EdgeInsets.only(
                         left: 8.0,
@@ -96,7 +97,7 @@ class _DistanceDialogState extends State<DistanceDialog> {
                       )),
                   const SizedBox(
                     height: 16,
-                  ),
+                  ),*/
                   Container(
                       padding: const EdgeInsets.only(
                         left: 8.0,

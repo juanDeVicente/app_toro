@@ -48,8 +48,6 @@ void onStart(ServiceInstance service) async {
 
         var nearestToro =
             await getNearestToro(position.latitude, position.longitude);
-        print(
-            'Distancia a toro ${nearestToro!.toro.name} es ${nearestToro.distance}');
         if (nearestToro!.distance <= distanceToCheck &&
             nearestToro.toro.name != lastToroSeen) {
           await preferences.setString('last_toro_seen', nearestToro.toro.name);
