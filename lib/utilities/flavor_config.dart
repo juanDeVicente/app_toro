@@ -1,4 +1,4 @@
-enum Flavor { dev, prod }
+enum Flavor { dev, prod, service }
 
 class FlavorValues {
   FlavorValues({required this.baseUrl});
@@ -13,6 +13,7 @@ class FlavorConfig {
 
   factory FlavorConfig({required Flavor flavor, required FlavorValues values}) {
     _instance ??= FlavorConfig._internal(flavor, flavor.toString(), values);
+
     return _instance!;
   }
 

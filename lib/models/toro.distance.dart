@@ -57,10 +57,9 @@ class ToroDistance {
 }
 
 Future<ToroDistance?> getNearestToro(double lat, double lon) async {
-  var apiUrl =
-      '${FlavorConfig.instance.values.baseUrl}/toro/distance?lat=$lat&lon=$lon';
-
   try {
+    var apiUrl =
+        '${FlavorConfig.instance.values.baseUrl}/toro/distance?lat=$lat&lon=$lon';
     final response = await http.get(Uri.parse(apiUrl));
     if (response.statusCode == 200) {
       var toroDistance = ToroDistance.fromJson(json.decode(response.body));

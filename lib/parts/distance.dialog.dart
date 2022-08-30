@@ -1,5 +1,6 @@
 import 'package:app_toro/parts/error.data.dart';
 import 'package:app_toro/parts/waiting.data.dart';
+import 'package:app_toro/services/distance_background_service.dart';
 import 'package:app_toro/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -130,6 +131,7 @@ class _DistanceDialogState extends State<DistanceDialog> {
                                   onChanged: (value) async => {
                                     await (await _prefs)
                                         .setBool(keyShowNotifications, value),
+                                    initializeService(),
                                     setState(
                                       () {},
                                     )
