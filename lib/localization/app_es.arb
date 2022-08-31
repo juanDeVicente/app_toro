@@ -1,0 +1,17 @@
+{
+	"firstPanelHeader": "¿Qué es \"Where is my toro\"?",
+	"firstPanelBody": "\"Where is my toro?\" es la aplicación definitiva que te permitirá ganar a tus amigos en el famosísimo juego de \"Toro\"",
+	"secondPanelHeader": "¿Qué es el juego de \"Toro\"?",
+	"secondPanelBody": "El juego de toro es aquel que se juega en las carreteras de España que consiste en lo siguiente: El primero que ve un toro en la carretera tiene la obligación de gritar Toro para ganar la ronda. Quien hubiera gritado más veces toro en la ruta será el ganador",
+	"thirdPanelHeader": "¿Cómo puedes usar la app?",
+	"thirdPanelBody": "Usando el menú desplegable de la izquierda puedes curiosear con las opciones disponibles de la app",
+	"seeToros": "Ver Toros",
+	"nearestToro": "Toro más cercano",
+	"options": "Opciones",
+	"notifications": "Notificaciones",
+	"enableNotifications": "Permitir notificaciones",
+	"distanceToNotify": "Distancia a notificar (km)",
+	"distanceText": "El toro más cercano está a {distance}",
+	"kilometers": "kilómetros",
+	"meters": "metros"
+}
