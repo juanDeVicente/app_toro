@@ -22,5 +22,6 @@
         }
     },
 	"kilometers": "kilometers",
-	"meters": "meters"
+	"meters": "meters",
+	"close": "Close"
 }
