@@ -13,5 +13,6 @@
 	"distanceToNotify": "Distancia a notificar (km)",
 	"distanceText": "El toro más cercano está a {distance}",
 	"kilometers": "kilómetros",
-	"meters": "metros"
+	"meters": "metros",
+	"close": "Cerrar"
 }

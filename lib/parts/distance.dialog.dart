@@ -183,13 +183,8 @@ class _DistanceDialogState extends State<DistanceDialog> {
               actions: [
                 TextButton(
                   style: TextButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () => Navigator.pop(context, 'Cancel'),
-                  child: const Text('Cancelar'),
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () => Navigator.pop(context, 'OK'),
-                  child: const Text('OK'),
+                  onPressed: () => Navigator.pop(context, 'Close'),
+                  child: Text(AppLocalizations.of(context)!.close),
                 ),
               ]);
         } else if (snapshot.hasError) {
