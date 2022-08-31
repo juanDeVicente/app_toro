@@ -1,0 +1,26 @@
+{
+	"firstPanelHeader": "¿What is \"Where is my toro\"?",
+	"firstPanelBody": "\"Where is my toro?\" is the definitive application that will allow you to beat your friends in the famous \"Toro\" game",
+	"secondPanelHeader": "What is the \"Toro\" game?",
+	"secondPanelBody": "The Toro game is one that is played on the roads of Spain and consists of the following: The first one who sees a bull on the road has the obligation to shout Toro to win the round. Whoever would have shouted bull more times on the route will be the winner",
+	"thirdPanelHeader": "How can you use the app?",
+	"thirdPanelBody": "Using the drop-down menu on the left you can browse through the available options of the app",
+	"seeToros": "See Toros",
+	"nearestToro": "Nearest Toro",
+	"options": "Options",
+	"notifications": "Notifications",
+	"enableNotifications": "Enable notifications",
+	"distanceToNotify": "Distance to notify (km)",
+	"distanceText": "The nearest bull is {distance} away",
+	"@distanceText": {
+        "description": "Text for distance",
+        "placeholders": {
+            "distance": {
+                "type": "String",
+                "example": "100 meters"
+            }
+        }
+    },
+	"kilometers": "kilometers",
+	"meters": "meters"
+}

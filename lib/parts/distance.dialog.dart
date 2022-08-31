@@ -4,6 +4,7 @@ import 'package:app_toro/services/distance_background_service.dart';
 import 'package:app_toro/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DistanceDialog extends StatefulWidget {
   const DistanceDialog({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _DistanceDialogState extends State<DistanceDialog> {
           var distanceToNotify = snapshot.data![2] as double;
 
           return AlertDialog(
-              title: const Text('Opciones'),
+              title: Text(AppLocalizations.of(context)!.options),
               actionsPadding: const EdgeInsets.only(right: 18),
               backgroundColor: backgroundColor,
               content: Column(
@@ -113,17 +114,18 @@ class _DistanceDialogState extends State<DistanceDialog> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Notificaciones',
-                            style: TextStyle(
+                          Text(
+                            AppLocalizations.of(context)!.notifications,
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           Row(
                             children: [
-                              const Expanded(
+                              Expanded(
                                   flex: 9,
                                   child: Text(
-                                    'Habilitar notificaciones',
+                                    AppLocalizations.of(context)!
+                                        .enableNotifications,
                                   )),
                               Expanded(
                                 flex: 1,
@@ -144,11 +146,13 @@ class _DistanceDialogState extends State<DistanceDialog> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text('Distancia a notificar (km)'),
+                              Text(AppLocalizations.of(context)!
+                                  .distanceToNotify),
                               Row(
                                 children: [
                                   Expanded(
-                                      flex: 1, child: Text('$_minDistance')),
+                                      flex: 1,
+                                      child: Text('${_minDistance.toInt()}')),
                                   Expanded(
                                       flex: 8,
                                       child: Slider(
@@ -166,7 +170,8 @@ class _DistanceDialogState extends State<DistanceDialog> {
                                         },
                                       )),
                                   Expanded(
-                                      flex: 1, child: Text('$_maxDistance')),
+                                      flex: 1,
+                                      child: Text('${_maxDistance.toInt()}')),
                                 ],
                               )
                             ],

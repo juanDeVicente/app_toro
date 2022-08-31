@@ -86,7 +86,7 @@ void startService() => _service?.startService();
 
 bool onIosBackground(ServiceInstance service) {
   WidgetsFlutterBinding.ensureInitialized();
-  print('FLUTTER BACKGROUND FETCH');
+  onStart(service);
 
   return true;
 }
