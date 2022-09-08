@@ -2,6 +2,7 @@ import 'package:app_toro/routes/toros.dart';
 import 'package:app_toro/routes/toros.distance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ToroDrawer extends StatelessWidget {
   const ToroDrawer({Key? key}) : super(key: key);
@@ -58,7 +59,7 @@ class ToroDrawer extends StatelessWidget {
                   Container(
                     padding:
                         const EdgeInsets.only(left: listTitleIconSeparator),
-                    child: const Text('Ver toros'),
+                    child: Text(AppLocalizations.of(context)!.seeToros),
                   )
                 ],
               ),
@@ -90,7 +91,7 @@ class ToroDrawer extends StatelessWidget {
                     Container(
                       padding:
                           const EdgeInsets.only(left: listTitleIconSeparator),
-                      child: const Text('Toro más cercano'),
+                      child: Text(AppLocalizations.of(context)!.nearestToro),
                     )
                   ],
                 ),

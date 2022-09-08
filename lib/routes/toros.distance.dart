@@ -9,6 +9,7 @@ import 'dart:math';
 
 import '../parts/app.bar.dart';
 import '../parts/drawer.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class TorosDistanceRoute extends StatefulWidget {
   const TorosDistanceRoute({Key? key}) : super(key: key);
@@ -86,6 +87,15 @@ class _TorosDistanceRouteState extends State<TorosDistanceRoute> {
 class DistanceToroWidget extends StatelessWidget {
   const DistanceToroWidget({Key? key}) : super(key: key);
   final Color backgroundColor = Colors.white;
+
+  String _calculateDistance(double distance, BuildContext context) {
+    if (distance < 1) {
+      return '${(distance * 1000).toInt()} ${AppLocalizations.of(context)!.meters}';
+    }
+
+    return '${distance.toInt()} ${AppLocalizations.of(context)!.kilometers}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -138,11 +148,12 @@ class DistanceToroWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Container(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Text(
-                            textAlign: TextAlign.center,
-                            'El toro más cercano está a ${toroDistance.distance.toInt()} kilómetros'),
-                      ),
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                              textAlign: TextAlign.center,
+                              AppLocalizations.of(context)!.distanceText(
+                                  _calculateDistance(
+                                      toroDistance.distance, context)))),
                       Expanded(
                           child: FlutterMap(
                         options: MapOptions(
