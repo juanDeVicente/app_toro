@@ -4,7 +4,7 @@
   <a href="https://github.com/juanDeVicente/app_toro">
     <img src="assets/bull.png" alt="Logo" width="220" height="220">
   </a>
-  <h2>Where is my toro?</h2>
+  <h3>Where is my toro?</h3>
 </div>
 
 # About the project
