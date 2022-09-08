@@ -69,7 +69,7 @@ Open the configuration dialog
 
 See the [open issues](https://github.com/juanDeVicente/app_toro/issues) for a full list of proposed features (and known issues).
 
-## Contributing
+# Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
